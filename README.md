@@ -1,2 +1,2 @@
-# otus-software-architect
-Homework for course Software Architect by OTUS
+# Software Architect
+Homework for course [Software Architect by OTUS](https://otus.ru/lessons/arhitektor-po/)
