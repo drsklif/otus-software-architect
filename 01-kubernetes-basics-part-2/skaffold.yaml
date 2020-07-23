@@ -1,0 +1,13 @@
+apiVersion: skaffold/v2beta5
+kind: Config
+metadata:
+  name: --kubernetes-basics-part--
+build:
+  artifacts:
+  - image: sample-app
+deploy:
+  kubectl:
+    manifests:
+    - manifests/deployment.yaml
+    - manifests/ingress.yaml
+    - manifests/service.yaml

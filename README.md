@@ -1,2 +1,4 @@
-# Software Architect
-Homework for course [Software Architect by OTUS](https://otus.ru/lessons/arhitektor-po/)
+# Архитектор программного обеспечения
+Домашние задания для курса [Архитектор программного обеспечения от OTUS](https://otus.ru/lessons/arhitektor-po/)
+
+[ДЗ №1 - Основы работы с Kubernetes (часть 2)](01-kubernetes-basics-part-2/)

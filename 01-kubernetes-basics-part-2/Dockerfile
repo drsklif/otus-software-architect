@@ -5,10 +5,10 @@ LABEL maintainer="Ildyakov Aleksandr"
 ENV PYTHONBUNUFFERED 1
 EXPOSE 8000
 
-RUN apk update
+RUN apk update && apk upgrade
 
-WORKDIR /usr/app/
-COPY . /usr/app/
+WORKDIR /app/
+COPY app/ /app/
 
 RUN pip install --no-cache-dir -r requirements.txt
 
