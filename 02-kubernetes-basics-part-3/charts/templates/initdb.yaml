@@ -1,0 +1,69 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "initdb"
+spec:
+  template:
+    metadata:
+      name: "initdb"
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: check-db-ready
+          image: postgres:latest
+          env:
+            - name: DATABASE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ template "crud.fullname" . }}
+                  key: DATABASE_HOST
+            - name: DATABASE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ template "crud.fullname" . }}
+                  key: DATABASE_PORT
+          command:
+            - sh
+            - "-c"
+            - |
+              until pg_isready -h $DATABASE_HOST  -p  $DATABASE_PORT;
+              do echo waiting for database; sleep 2; done;
+      containers:
+      - name: post-install-job
+        env:
+          - name: DATABASE_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: {{ template "crud.fullname" . }}
+                key: DATABASE_HOST
+          - name: DATABASE_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: {{ template "crud.fullname" . }}
+                key: DATABASE_PORT
+          - name: DATABASE_USER
+            valueFrom:
+              configMapKeyRef:
+                name: {{ template "crud.fullname" . }}
+                key: DATABASE_USER
+          - name: DATABASE_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: {{ template "crud.fullname" . }}
+                key: DATABASE_NAME
+          - name: DATABASE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres
+                key: postgresql-password
+        image: postgres:latest
+        command:
+          - sh
+          - "-c"
+          - |
+            psql postgresql://$DATABASE_USER:$DATABASE_PASSWORD@$DATABASE_HOST:$DATABASE_PORT/$DATABASE_NAME <<'EOF'
+              create table users (id bigint GENERATED ALWAYS AS IDENTITY primary key, username varchar, firstname varchar, lastname varchar, email varchar, phone varchar);
+              insert into users (username, firstname, lastname, email, phone) values ('test_user', 'Константин', 'Константинопольский', 'kostya@test.ru', '+79999999999');
+            EOF
+
+  backoffLimit: 2

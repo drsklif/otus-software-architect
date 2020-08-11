@@ -1,0 +1,28 @@
+service:
+  internalPort: 8000
+  externalPort: 8000
+  liveness:
+    path: /
+    initialDelay: 5
+    period: 10
+  readiness:
+    path: /health/
+    initialDelay: 5
+    period: 5
+
+image:
+  repository: drsklifnsk/otus-sa
+  tag: crud-app-v12
+
+ingress:
+  class: nginx
+  host: arch.homework
+
+postgresql:
+  enabled: true
+  nameOverride: crud-db
+  postgresqlUsername: user
+  existingSecret: postgres
+  postgresqlDatabase: db
+  service:
+    port: "5432"

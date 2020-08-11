@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otus-crud
+  labels:
+    app: crud
+    component: api
+    release: otus
+spec:
+  replicas: 2
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: crud
+      component: api
+      release: otus
+  template:
+    metadata:
+      name: crud-pod
+      labels:
+        app: crud
+        component: api
+        release: otus
+    spec:
+      containers:
+      - image: "drsklifnsk/otus-sa:crud-app-v12"
+        name: crud-api
+        ports:
+        - containerPort: 8000
+          name: api
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            port: api
+            path: /
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            port: api
+            path: /health/
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        env:
+          - name: DATABASE_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: otus-crud
+                key: DATABASE_HOST
+          - name: DATABASE_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: otus-crud
+                key: DATABASE_PORT
+          - name: DATABASE_USER
+            valueFrom:
+              configMapKeyRef:
+                name: otus-crud
+                key: DATABASE_USER
+          - name: DATABASE_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: otus-crud
+                key: DATABASE_NAME
+          - name: DATABASE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres
+                key: postgresql-password

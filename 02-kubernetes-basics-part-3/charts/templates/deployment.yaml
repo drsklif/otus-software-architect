@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "crud.fullname" . }}
+  labels:
+    app: crud
+    component: api
+    release: {{ .Release.Name }}
+spec:
+  replicas: 2
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: crud
+      component: api
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      name: crud-pod
+      labels:
+        app: crud
+        component: api
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+      - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        name: crud-api
+        ports:
+        - containerPort: {{ .Values.service.internalPort }}
+          name: api
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            port: api
+            path: {{ .Values.service.liveness.path }}
+          initialDelaySeconds: {{ .Values.service.liveness.initialDelay }}
+          periodSeconds: {{ .Values.service.liveness.period }}
+        readinessProbe:
+          httpGet:
+            port: api
+            path: {{ .Values.service.readiness.path }}
+          initialDelaySeconds: {{ .Values.service.readiness.initialDelay }}
+          periodSeconds: {{ .Values.service.readiness.period }}
+        env:
+          - name: DATABASE_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: {{ template "crud.fullname" . }}
+                key: DATABASE_HOST
+          - name: DATABASE_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: {{ template "crud.fullname" . }}
+                key: DATABASE_PORT
+          - name: DATABASE_USER
+            valueFrom:
+              configMapKeyRef:
+                name: {{ template "crud.fullname" . }}
+                key: DATABASE_USER
+          - name: DATABASE_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: {{ template "crud.fullname" . }}
+                key: DATABASE_NAME
+          - name: DATABASE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres
+                key: postgresql-password

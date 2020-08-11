@@ -1,0 +1,149 @@
+{
+	"info": {
+		"_postman_id": "cb82f0af-bf30-4d15-bfa8-6c144184c712",
+		"name": "Otus CRUD app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{baseURL}}/otusapp/{{studentName}}/user/1",
+					"protocol": "http",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"otusapp",
+						"{{studentName}}",
+						"user",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"second user\",\n    \"firstname\": \"anonymous\",\n    \"lastname\": \"string\",\n    \"email\": \"user@example.com\",\n    \"phone\": \"null\"\n}"
+				},
+				"url": {
+					"raw": "http://{{baseURL}}/otusapp/{{studentName}}/user/",
+					"protocol": "http",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"otusapp",
+						"{{studentName}}",
+						"user",
+						""
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"updated\",\n    \"firstname\": \"user\",\n    \"lastname\": \"string\",\n    \"email\": \"user@example.com\",\n    \"phone\": \"+79999999999\"\n}"
+				},
+				"url": {
+					"raw": "http://{{baseURL}}/otusapp/{{studentName}}/user/2",
+					"protocol": "http",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"otusapp",
+						"{{studentName}}",
+						"user",
+						"2"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{baseURL}}/otusapp/{{studentName}}/user/2",
+					"protocol": "http",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"otusapp",
+						"{{studentName}}",
+						"user",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"id": "e0b92f8e-04bb-427a-97e4-29a3274a55f4",
+			"key": "baseURL",
+			"value": "arch.homework",
+			"type": "string"
+		},
+		{
+			"id": "9f022fba-6555-4db1-9795-a13c135e1e95",
+			"key": "studentName",
+			"value": "ildyakov-aleksandr",
+			"type": "string"
+		}
+	]
+}

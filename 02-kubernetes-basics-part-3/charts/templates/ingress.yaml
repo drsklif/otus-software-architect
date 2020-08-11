@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "crud.fullname" . }}
+  annotations:
+    kubernetes.io/ingress.class: {{ .Values.ingress.class }}
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+  - host: {{ .Values.ingress.host | default .Release.Name }}
+    http:
+      paths:
+      - path: /otusapp/ildyakov-aleksandr($|/)(.*)
+        backend:
+          serviceName: {{ template "crud.fullname" . }}
+          servicePort: {{ .Values.service.externalPort }}

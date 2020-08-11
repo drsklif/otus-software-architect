@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "crud.fullname" . }}
+  labels:
+    app: crud
+    component: api
+    release: {{ .Release.Name }}
+data:
+  DATABASE_HOST: "{{ .Release.Name }}-crud-db"
+  DATABASE_PORT: "{{ .Values.postgresql.service.port }}"
+  DATABASE_USER: "{{ .Values.postgresql.postgresqlUsername }}"
+  DATABASE_NAME: "{{ .Values.postgresql.postgresqlDatabase }}"
