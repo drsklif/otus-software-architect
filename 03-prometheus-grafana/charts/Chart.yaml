@@ -1,0 +1,16 @@
+apiVersion: v2
+name: crud-chart
+version: 1.0.0
+description: OTUS simple crud application
+maintainers:
+  - name: Alexander Ildyakov
+    email: a.ildjakov@yandex.ru
+appVersion: 1.0
+
+dependencies:
+  - name: postgresql
+    version: 8.x.x
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.enabled
+    tags:
+      - crud-database

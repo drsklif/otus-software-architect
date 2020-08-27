@@ -1,0 +1,34 @@
+prometheus:
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/rewrite-target: /$1
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    hosts:
+      - monitoring.arch.homework
+    paths:
+      - /prometheus/?(.*)
+  prometheusSpec:
+    externalUrl: http://monitoring.arch.homework/prometheus/
+    serviceMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelector: {}
+
+grafana:
+  sidecar:
+    dashboards:
+      enabled: true
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/rewrite-target: /$1
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    hosts:
+      - monitoring.arch.homework
+    path: /grafana/?(.*)
+  grafana.ini:
+    server:
+      domain: monitoring.arch.homework
+      root_url: http://monitoring.arch.homework/grafana/
+      serve_from_sub_path: true

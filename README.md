@@ -4,3 +4,5 @@
 [ДЗ №1 - Основы работы с Kubernetes (часть 2)](01-kubernetes-basics-part-2/)
 
 [ДЗ №2 - Основы работы с Kubernetes (часть 3)](02-kubernetes-basics-part-3/)
+
+[ДЗ №3 - Prometheus. Grafana](03-prometheus-grafana/)
